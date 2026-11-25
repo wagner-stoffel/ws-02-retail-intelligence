@@ -2,17 +2,15 @@
 
 A retail analytics portfolio project by WS Estratégia e Inteligência Artificial.
 
-**Status:** Phase 1 — automated data quality validation executed successfully against a synthetic commercial dataset. Repository initialisation is in progress; the locally validated source code and dependency manifest are pending publication.
-
-This is an independent learning and portfolio project, not a client engagement or a production deployment.
+**Status:** Automated data quality validation implemented and executed successfully against a synthetic commercial dataset. The repository includes the original validated source code and dependency manifest.
 
 ## Business problem
 
 Commercial managers need reliable sales, customer traffic and target data before evaluating performance, profitability and sales strategies. Inconsistent records can distort management indicators and lead to poor pricing and operational decisions.
 
-## Phase 1 — Data quality validation
+## Data quality validation
 
-The first phase uses a read-only Google Sheets integration to audit a simulated consumer electronics retail dataset covering six commercial units and twelve SKUs, with sales, traffic and commercial targets.
+The validation script uses a read-only Google Sheets integration to audit a simulated consumer electronics retail dataset covering six commercial units and twelve SKUs, with sales, traffic and commercial targets.
 
 Validation covers required fields, duplicate keys, numerical and date validity, price/cost and discount consistency, period coverage, SKU consistency, cross-table integrity and negative gross profit.
 
@@ -47,19 +45,19 @@ A subsequent review of the flagged source rows identified the following results:
 
 All flagged records belong to the simulated Porto Alegre physical store in October 2026. Results concern only the flagged subset, not the overall store or dataset. Discounts exceeded the break-even threshold in these records; the business reason remains unverified. Negative gross profit is a commercial alert and not, by itself, a data error.
 
-## Planned repository structure
+## Repository structure
 
 ```text
 .
 ├── README.md
-├── requirements.txt               # pending publication
-├── validate_commercial_data.py    # pending publication
+├── requirements.txt
+├── validate_commercial_data.py
 └── .gitignore
 ```
 
 Local credentials, OAuth tokens, virtual environments and generated reports are excluded from version control.
 
-## Running locally (once the source is published)
+## Running locally
 
 Prerequisites: Python, access to a compatible Google Sheets dataset, an enabled Google Sheets API and a desktop OAuth client. For an external OAuth app in testing mode, the authenticating account must be an approved test user and have read access to the spreadsheet.
 
@@ -71,7 +69,7 @@ python -m venv .venv
 python -m pip install -r requirements.txt
 ```
 
-Download your own OAuth client credentials and save them locally as `credentials.json`. Configure the source spreadsheet to a compatible dataset you can access. The original working spreadsheet is not distributed here; reproduction requires a compatible dataset.
+Download your own OAuth client credentials and save them locally as `credentials.json`. Set `SHEET_ID` in `validate_commercial_data.py` to a compatible spreadsheet you can access. The original working spreadsheet is not distributed here; reproduction requires a compatible dataset.
 
 ```powershell
 python validate_commercial_data.py
@@ -79,24 +77,12 @@ python validate_commercial_data.py
 
 Complete the browser consent flow if prompted. The locally executed script requested read-only spreadsheet access.
 
-Expected local outputs:
+Local outputs:
 
 - `reports/quality_report.csv` — validation rules, occurrence counts and results.
 - `reports/quality_occurrences.csv` — source sheet, row number, rule and severity.
 
 Never commit credentials or OAuth tokens.
-
-## Roadmap
-
-- [x] Google Sheets API integration and local OAuth authentication
-- [x] Automated data quality validation and local CSV reports
-- [x] Preliminary review of negative gross profit records
-- [ ] Publish locally validated source and dependency manifest
-- [ ] Comparative commercial profitability analysis
-- [ ] SQL data modelling and commercial KPIs
-- [ ] Executive dashboard
-- [ ] AI-assisted analysis and workflow automation
-- [ ] Reproducible demonstration dataset and automated tests
 
 ## Disclaimer
 
