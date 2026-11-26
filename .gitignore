@@ -14,3 +14,5 @@ reports/
 profitability_token.json
 profitability_reports.zip
 performance_reports.zip
+/data/
+sql_reports.zip
