@@ -13,3 +13,4 @@ reports/
 !.env.example
 profitability_token.json
 profitability_reports.zip
+performance_reports.zip
