@@ -2,7 +2,7 @@
 
 A retail analytics portfolio project by WS Estratégia e Inteligência Artificial.
 
-**Status:** v0.3.0 milestone — automated data quality validation, commercial profitability analysis, and commercial performance & targets analysis implemented and executed successfully on a local Windows environment against a synthetic commercial dataset. Independent portfolio project; not a production deployment.
+**Status:** v0.4.0 milestone — data quality validation, commercial profitability, performance & targets, and SQLite data modelling implemented and executed on a local Windows environment against a synthetic commercial dataset. Independent portfolio project; not a production deployment.
 
 ## Business problem
 
@@ -31,6 +31,11 @@ flowchart LR
     C -. Read-only access .-> I
     I --> J[Performance and target variance CSVs]
     J --> H
+    A --> K[Python ETL and validation]
+    C -. Read-only access .-> K
+    K --> L[(SQLite analytical model)]
+    L --> M[SQL queries and reconciliation CSVs]
+    M --> H
 ```
 
 ### Results
@@ -104,6 +109,14 @@ São Paulo was the only unit to meet all three October targets. Curitiba's conve
 
 The six performance reports were generated successfully, and their financial, traffic and target totals reconciled with the submitted reports. See the [performance and targets case study](docs/commercial_performance_targets.md) for the detailed methodology, scorecard, revenue bridge, validation evidence and limitations.
 
+## Phase 4 — SQL data modelling
+
+The local SQLite fact constellation separates sales (day/unit/SKU), traffic (day/unit), and targets (month/unit), with four shared dimensions. Monetary values are stored in integer cents. The loader validates source data, builds a temporary snapshot, checks database integrity and reconciles SQL metrics against Pandas before replacing the previous database.
+
+Seven analytical queries and a reconciliation report were generated. All 24 recorded controls passed; independent cross-checks against Phase 2 and 3 exports confirmed matching common metrics, including BRL 44,319,150.96 in net sales and BRL 7,167,480.46 in gross profit. The twelve negative-profit records also reconciled to a loss of BRL 3,988.79.
+
+See [SQL data modelling case study](docs/sql_data_modelling.md) and [setup instructions](SQL_SETUP.md). The local database itself was not supplied for separate inspection; the results are supported by the report archive and execution evidence.
+
 ## Repository structure
 
 ```text
@@ -113,9 +126,16 @@ The six performance reports were generated successfully, and their financial, tr
 ├── validate_commercial_data.py
 ├── analyze_commercial_profitability.py
 ├── analyze_commercial_performance.py
+├── build_retail_database.py
+├── test_sql_model.py
+├── SQL_SETUP.md
+├── sql/
+│   ├── schema.sql
+│   └── queries.sql
 ├── docs/
 │   ├── commercial_profitability_analysis.md
-│   └── commercial_performance_targets.md
+│   ├── commercial_performance_targets.md
+│   └── sql_data_modelling.md
 ├── CHANGELOG.md
 └── .gitignore
 ```
@@ -178,16 +198,25 @@ It reads `Vendas` (A:L), `Fluxo` (A:G) and `Metas` (A:G) with read-only access, 
 - `network_financial_performance.csv`
 - `target_exceptions.csv`
 
+Test and build the SQL model:
+
+```powershell
+python test_sql_model.py
+python build_retail_database.py --spreadsheet "<YOUR_SHEET_ID_OR_URL>"
+```
+
+The loader creates `data/retail_intelligence.sqlite3` and eight CSVs in `reports/sql/`. It uses full snapshot replacement; see [SQL_SETUP.md](SQL_SETUP.md) for operational details. Python 3.12+ also provides the SQLite shell via `python -m sqlite3 data/retail_intelligence.sqlite3`.
+
 CSV format: UTF-8 with BOM, semicolon delimiter and decimal comma.
 
-Never commit credentials or OAuth tokens. Generated CSVs and local ZIP archives remain outside version control.
+Never commit credentials or OAuth tokens. The generated SQLite database, CSVs and local ZIP archives remain outside version control.
 
 ## Roadmap
 
 - [x] Data quality validation and Google Sheets OAuth integration
 - [x] Commercial profitability and discount scenario analysis
 - [x] Commercial performance, targets and conversion analysis
-- [ ] SQL data modelling and analytical queries
+- [x] SQL data modelling and analytical queries
 - [ ] Executive BI dashboard
 - [ ] AI-assisted commercial analysis
 - [ ] Workflow automation
