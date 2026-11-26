@@ -2,7 +2,7 @@
 
 A retail analytics portfolio project by WS Estratégia e Inteligência Artificial.
 
-**Status:** v0.2.0 milestone — automated data quality validation and commercial profitability analysis implemented and executed successfully on a local Windows environment against a synthetic commercial dataset. Independent portfolio project; not a production deployment.
+**Status:** v0.3.0 milestone — automated data quality validation, commercial profitability analysis, and commercial performance & targets analysis implemented and executed successfully on a local Windows environment against a synthetic commercial dataset. Independent portfolio project; not a production deployment.
 
 ## Business problem
 
@@ -27,6 +27,10 @@ flowchart LR
     F --> G[Profitability and discount scenario CSVs]
     D --> H[Management analysis]
     G --> H
+    A --> I[Python performance and targets analysis]
+    C -. Read-only access .-> I
+    I --> J[Performance and target variance CSVs]
+    J --> H
 ```
 
 ### Results
@@ -86,6 +90,20 @@ The seven local report files were cross-checked for consistent totals across uni
 
 See [commercial profitability case study](docs/commercial_profitability_analysis.md) for methodology, findings and proposed management actions.
 
+## Phase 3 — Commercial performance & targets
+
+The third Python module integrates daily SKU-level sales with unit/day traffic and monthly targets, using pre-aggregation and checked one-to-one joins to prevent double-counting. It calculates conversion, average ticket, items per order, revenue per visit, target attainment and revenue variance components while keeping physical visits and digital sessions separate.
+
+| Indicator | September | October |
+| --- | ---: | ---: |
+| Network sales target attainment | 105.26% | 106.48% |
+| Gross margin | 17.35% | 15.12% |
+| Individual targets met | 16/18 | 11/18 |
+
+São Paulo was the only unit to meet all three October targets. Curitiba's conversion fell from 14.61% to 9.77% despite higher daily traffic; Porto Alegre's revenue grew but margins declined. The analysis recommends investigating conversion in Curitiba and discount governance in Porto Alegre. These are hypotheses and proposed actions, not validated operational causes.
+
+The six performance reports were generated successfully, and their financial, traffic and target totals reconciled with the submitted reports. See the [performance and targets case study](docs/commercial_performance_targets.md) for the detailed methodology, scorecard, revenue bridge, validation evidence and limitations.
+
 ## Repository structure
 
 ```text
@@ -94,8 +112,10 @@ See [commercial profitability case study](docs/commercial_profitability_analysis
 ├── requirements.txt
 ├── validate_commercial_data.py
 ├── analyze_commercial_profitability.py
+├── analyze_commercial_performance.py
 ├── docs/
-│   └── commercial_profitability_analysis.md
+│   ├── commercial_profitability_analysis.md
+│   └── commercial_performance_targets.md
 ├── CHANGELOG.md
 └── .gitignore
 ```
@@ -143,6 +163,21 @@ Alternatively, omit the argument to enter the spreadsheet URL interactively. The
 - `discount_scenarios.csv`
 - `negative_profit_details.csv`
 
+Run the performance module with the corrected profitability module in the same directory:
+
+```powershell
+python analyze_commercial_performance.py --spreadsheet "<YOUR_SHEET_ID_OR_URL>"
+```
+
+It reads `Vendas` (A:L), `Fluxo` (A:G) and `Metas` (A:G) with read-only access, reconciles source totals and writes six CSVs to `reports/performance/`:
+
+- `daily_performance.csv`
+- `monthly_performance_targets.csv`
+- `channel_performance.csv`
+- `monthly_performance_comparison.csv`
+- `network_financial_performance.csv`
+- `target_exceptions.csv`
+
 CSV format: UTF-8 with BOM, semicolon delimiter and decimal comma.
 
 Never commit credentials or OAuth tokens. Generated CSVs and local ZIP archives remain outside version control.
@@ -151,7 +186,7 @@ Never commit credentials or OAuth tokens. Generated CSVs and local ZIP archives 
 
 - [x] Data quality validation and Google Sheets OAuth integration
 - [x] Commercial profitability and discount scenario analysis
-- [ ] Commercial performance, targets and conversion analysis
+- [x] Commercial performance, targets and conversion analysis
 - [ ] SQL data modelling and analytical queries
 - [ ] Executive BI dashboard
 - [ ] AI-assisted commercial analysis
