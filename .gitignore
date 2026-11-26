@@ -11,3 +11,5 @@ reports/
 .env
 .env.*
 !.env.example
+profitability_token.json
+profitability_reports.zip
