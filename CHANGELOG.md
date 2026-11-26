@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.4.0 — SQL Data Modelling (2026-11-26)
+
+- Added four dimensions, three fact tables, integrity constraints, indexes and three analytical views in SQLite.
+- Implemented validated read-only extraction and full local snapshot loading, with integer-cent monetary storage and pre-aggregation at the correct grain.
+- Added seven SQL queries and an offline integration test.
+- Confirmed 24/24 SQL/Pandas reconciliation controls and cross-checked all eight submitted CSVs against prior analysis exports where comparable.
+- Documented setup, modelling decisions, validation evidence and limits; excluded local database and archive from Git.
+
 ## v0.3.0 — Commercial Performance & Targets (2026-11-26)
 
 - Added the locally executed performance and targets module; reused the corrected profitability module for read-only access and sales preparation.
