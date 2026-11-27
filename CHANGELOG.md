@@ -1,5 +1,12 @@
 # Changelog
 
+## v0.5.0 — Executive Dashboard (candidate, 2026-11-26)
+
+- Implemented five Power BI pages, 46 visual definitions and 31 DAX measures in the local PBIP project.
+- Corrected the Visits measure to prevent mixing physical visits with digital sessions; static review completed.
+- Published the read-only SQLite-to-CSV exporter and dashboard case study.
+- Excluded local Power BI cache and settings from Git. PBIP source publication is pending; runtime acceptance in Power BI Desktop is also pending.
+
 ## v0.4.0 — SQL Data Modelling (2026-11-26)
 
 - Added four dimensions, three fact tables, integrity constraints, indexes and three analytical views in SQLite.
