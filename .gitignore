@@ -16,3 +16,11 @@ profitability_reports.zip
 performance_reports.zip
 /data/
 sql_reports.zip
+
+# Power BI local artifacts
+.pbi/
+*.abf
+*.pbix
+WS-02_Retail_Intelligence*.zip
+WS-02_etapas_05_06.zip
+publish_dashboard_v050.py
