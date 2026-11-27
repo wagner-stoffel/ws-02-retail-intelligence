@@ -2,7 +2,7 @@
 
 A retail analytics portfolio project by WS Estratégia e Inteligência Artificial.
 
-**Status:** v0.4.0 milestone — data quality validation, commercial profitability, performance & targets, and SQLite data modelling implemented and executed on a local Windows environment against a synthetic commercial dataset. Independent portfolio project; not a production deployment.
+**Status:** v0.4.0 milestone published; v0.5.0 Executive Dashboard candidate — Power BI implemented locally, exporter and documentation published; PBIP source publication and runtime acceptance pending. Independent portfolio project; not a production deployment.
 
 ## Business problem
 
@@ -117,6 +117,12 @@ Seven analytical queries and a reconciliation report were generated. All 24 reco
 
 See [SQL data modelling case study](docs/sql_data_modelling.md) and [setup instructions](SQL_SETUP.md). The local database itself was not supplied for separate inspection; the results are supported by the report archive and execution evidence.
 
+## Phase 5 — Executive Dashboard
+
+The locally implemented Power BI project contains five report pages, 46 visual definitions and 31 DAX measures, based on the SQL dimensional model. The corrected Visits measure prevents aggregation of physical visits and online sessions across channels. Static source review is complete; runtime acceptance in Power BI Desktop remains pending.
+
+Run `python export_powerbi_data.py` to export the validated SQLite model as seven CSVs in `data/powerbi/`. See the [dashboard case study and setup](docs/executive_dashboard.md) for data types, report scope, DAX measures, reference KPIs and validation criteria. PBIP source publication is pending.
+
 ## Repository structure
 
 ```text
@@ -128,6 +134,7 @@ See [SQL data modelling case study](docs/sql_data_modelling.md) and [setup instr
 ├── analyze_commercial_performance.py
 ├── build_retail_database.py
 ├── test_sql_model.py
+├── export_powerbi_data.py
 ├── SQL_SETUP.md
 ├── sql/
 │   ├── schema.sql
@@ -135,7 +142,8 @@ See [SQL data modelling case study](docs/sql_data_modelling.md) and [setup instr
 ├── docs/
 │   ├── commercial_profitability_analysis.md
 │   ├── commercial_performance_targets.md
-│   └── sql_data_modelling.md
+│   ├── sql_data_modelling.md
+│   └── executive_dashboard.md
 ├── CHANGELOG.md
 └── .gitignore
 ```
@@ -217,7 +225,7 @@ Never commit credentials or OAuth tokens. The generated SQLite database, CSVs an
 - [x] Commercial profitability and discount scenario analysis
 - [x] Commercial performance, targets and conversion analysis
 - [x] SQL data modelling and analytical queries
-- [ ] Executive BI dashboard
+- [ ] Executive BI dashboard (implemented locally; source publication and runtime acceptance pending)
 - [ ] AI-assisted commercial analysis
 - [ ] Workflow automation
 - [ ] Reproducible demonstration dataset and broader automated tests
